@@ -36,16 +36,18 @@ let camera = undefined,
     obsatacle,
     levelscore,
     scores = 0;
-    isLocked = false;
-    isShield = false;
-    isPowerOn = false;
-    hitCount = 0;
-    clock = undefined,
+   let isLocked = false;
+   let isShield = false;
+   let isPowerOn = false;
+   let hitCount = 0;
+   let clock = undefined,
     allUsersData =[];
     let userData;
-    startGameSound = "audio/startgame.wav"
-    endGameSound = "audio/gameend.wav"
-    levelCompleted = "audio/flag.wav"
+    let g = undefined;
+    let m = undefined;
+   let startGameSound = "audio/startgame.wav"
+    let endGameSound = "audio/gameend.wav"
+   let levelCompleted = "audio/flag.wav"
 
 // Box2D shortcuts
 b2World = Box2D.Dynamics.b2World,
@@ -478,7 +480,7 @@ const onContact = (contact) => {
     } else if (fixA.GetUserData() === "wall" && fixB.GetUserData() === "ball") {
         let hitSound = new Audio('audio/hitsound.wav');
          hitSound.play()
-         if(isPowerOn == false){
+         if(isPowerOn){
          hitCount ++;
         ballMesh.material.map = THREE.ImageUtils.loadTexture("crash.png");
 
@@ -490,23 +492,8 @@ const onContact = (contact) => {
         if(hitCount > 3){
             let modal = document.getElementById("myModal");
             modal.style.display = "block";
-            let span = document.getElementsByClassName("endClose");
             level = Math.floor((mazeDimension - 1) / 2 - 4);
-            // setTimeout(() => {
-            //     modal.style.display = "none";
-            //     gameState = 'fade out';
-            //     hitCount = 0;
-            //     scores = 0;
-            //     level = 1;
-            //     document.getElementById('score').innerHTML = "Score:" + scores;
-            // }, 1500);
-            // span.onclick = function() {
-            //     modal.style.display = "none";
-            //     gameState = 'fade out';
-            //     hitCount = 0;
-            //     scores = 0;
-            //     document.getElementById('score').innerHTML = "Score:" + scores;
-            //   }
+          
               
         }
         
@@ -522,25 +509,10 @@ const onContact = (contact) => {
     }
     else if (fixA.GetUserData() === "ball" && fixB.GetUserData() === "obstacles") {
       animAudio(endGameSound);
-      if(isPowerOn == false){
+      if(isPowerOn){
         let modal = document.getElementById("myModal");
         modal.style.display = "block";
-        let span = document.getElementsByClassName("endClose");
-        // span.onclick = function() {
-        //     modal.style.display = "none";
-        //     gameState = 'fade out';
-        //     hitCount = 0;
-        //     scores = 0;
-        //     document.getElementById('score').innerHTML = "Score:" + scores;
-        //   }
-        // setTimeout(() => {
-        //     modal.style.display = "none";
-        //     gameState = 'fade out';
-        //     hitCount = 0;
-        //     scores = 0;
-        //     level = 1;
-        //     document.getElementById('score').innerHTML = "Score:" + scores;
-        // }, 1500);
+    
            }
       
         
