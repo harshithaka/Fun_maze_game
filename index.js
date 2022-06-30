@@ -1,6 +1,6 @@
 
        
-var camera = undefined,
+let camera = undefined,
     scene = undefined,
     renderer = undefined,
     light = undefined,
@@ -63,20 +63,20 @@ b2World = Box2D.Dynamics.b2World,
     cBall = undefined;
     dball = undefined;
 
-var coins = [];
-var shield =[];
-var sound = document.createElement('audio');
+let coins = [];
+let shield =[];
+let sound = document.createElement('audio');
 
 function createPhysicsWorld() {
     // Create the world object.
     wWorld = new b2World(new b2Vec2(0, 0), true);
 
     // Create the ball.
-    var bodyDef = new b2BodyDef();
+    let bodyDef = new b2BodyDef();
     bodyDef.type = b2Body.b2_dynamicBody;
     bodyDef.position.Set(1, 1);
     wBall = wWorld.CreateBody(bodyDef);
-    var fixDef = new b2FixtureDef();
+    let fixDef = new b2FixtureDef();
     fixDef.density = 1.0;
     fixDef.userData = "ball";
     fixDef.friction = 0.0;
@@ -89,8 +89,8 @@ function createPhysicsWorld() {
     fixDef.shape = new b2PolygonShape();
     fixDef.shape.SetAsBox(0.5, 0.5);
     fixDef.userData = 'wall'
-    for (var i = 0; i < maze.dimension; i++) {
-        for (var j = 0; j < maze.dimension; j++) {
+    for (let i = 0; i < maze.dimension; i++) {
+        for (let j = 0; j < maze.dimension; j++) {
             if (maze[i][j]) {
                 bodyDef.position.x = i;
                 bodyDef.position.y = j;
@@ -100,8 +100,8 @@ function createPhysicsWorld() {
         }
     }
     // Create the Coin.
-    for (var i = 0; i < maze.dimension; i++) {
-        for (var j = i + 1; j < maze.dimension; j++) {
+    for (let i = 0; i < maze.dimension; i++) {
+        for (let j = i + 1; j < maze.dimension; j++) {
             if (!maze[i][j]) {
                 bodyDef.type = b2Body.b2_dynamicBody;
                 bodyDef.position.x = i;
@@ -130,12 +130,12 @@ const animAudio = (audiolink)=>{
 };
 
 function generate_maze_mesh(field) {
-    var dummy = new THREE.Geometry();
-    for (var i = 0; i < field.dimension; i++) {
-        for (var j = 0; j < field.dimension; j++) {
+    let dummy = new THREE.Geometry();
+    for (let i = 0; i < field.dimension; i++) {
+        for (let j = 0; j < field.dimension; j++) {
             if (field[i][j]) {
-                var geometry = new THREE.CubeGeometry(1, 1, 1, 1, 1, 1);
-                var mesh_ij = new THREE.Mesh(geometry);
+                let geometry = new THREE.CubeGeometry(1, 1, 1, 1, 1, 1);
+                let mesh_ij = new THREE.Mesh(geometry);
                 mesh_ij.position.x = i;
                 mesh_ij.position.y = j;
                 mesh_ij.position.z = 0.5;
@@ -144,23 +144,23 @@ function generate_maze_mesh(field) {
             }
         }
     }
-    var material = new THREE.MeshPhongMaterial({
+    let material = new THREE.MeshPhongMaterial({
         map: brickTexture
     });
-    var mesh = new THREE.Mesh(dummy, material)
+    let mesh = new THREE.Mesh(dummy, material)
     return mesh;
 }
 //Function to generate coins
 function generate_coin_mesh(field) {
-    var dummy = new THREE.Geometry();
+    let dummy = new THREE.Geometry();
     let material = new THREE.MeshLambertMaterial({
         color: 0xF5C000
     });
-    for (var i = 0; i < field.dimension; i++) {
-        for (var j = i + 1; j < field.dimension; j++) {
+    for (let i = 0; i < field.dimension; i++) {
+        for (let j = i + 1; j < field.dimension; j++) {
             if (!field[i][j]) {
-                var rotate = 0.0;
-                var increment = 100;
+                let rotate = 0.0;
+                let increment = 100;
                 const geometry = new THREE.CylinderGeometry(0.2, 0.2, 0.03, 100);
 
                 let cube = new THREE.Mesh(geometry, material);
@@ -183,7 +183,7 @@ function generate_coin_mesh(field) {
 
         }
     }
-    var coinmaterial = new THREE.Mesh(dummy, material)
+    let coinmaterial = new THREE.Mesh(dummy, material)
     return coinmaterial;
 }
 //Creating path for Destroyer onLoad
@@ -216,10 +216,10 @@ const obstacles = () => {
     });
     obsPerLevel = level % 2 !== 0 ? level + 1 : level;
 
-    var middleIndex = Math.ceil(Math.ceil(cords.length / obsPerLevel) / 2);
+    let middleIndex = Math.ceil(Math.ceil(cords.length / obsPerLevel) / 2);
 
     const chunkArray = (myArray, chunk_size) => {
-        var results = [];
+        let results = [];
 
         while (myArray.length) {
             results.push(myArray.splice(0, chunk_size));
@@ -228,7 +228,7 @@ const obstacles = () => {
         return results;
     };
 
-    var result = chunkArray(cords, middleIndex);
+    let result = chunkArray(cords, middleIndex);
 
     result.forEach((item, index) => {
         destroyerPath.push({
@@ -268,10 +268,10 @@ const shields = () => {
     });
     shiledPerLevel = level % 2 !== 0 ? level + 1 : level;
 
-    var middleIndex = Math.ceil(Math.ceil(cords.length / shiledPerLevel) / 2);
+    let middleIndex = Math.ceil(Math.ceil(cords.length / shiledPerLevel) / 2);
 
     const chunkArray = (myArray, chunk_size) => {
-        var results = [];
+        let results = [];
 
         while (myArray.length) {
             results.push(myArray.splice(0, chunk_size));
@@ -280,7 +280,7 @@ const shields = () => {
         return results;
     };
 
-    var result = chunkArray(cords, middleIndex);
+    let result = chunkArray(cords, middleIndex);
 
     result.forEach((item, index) => {
         shieldPath.push({
@@ -306,7 +306,7 @@ const addDestroyer = (path) => {
 
         scene.add(destroyerMesh);
 
-        var bodyDef = new b2BodyDef();
+        let bodyDef = new b2BodyDef();
 
         bodyDef.type = b2Body.b2_staticBody;
 
@@ -314,7 +314,7 @@ const addDestroyer = (path) => {
 
         bodyDef.position.Set(path.x + 0.5, path.y + 0.5, 0.3);
         dBall = wWorld.CreateBody(bodyDef);
-        var fixDef = new b2FixtureDef();
+        let fixDef = new b2FixtureDef();
         fixDef.density = 1.0;
         fixDef.userData = "obstacles";
         fixDef.friction = 0.0;
@@ -342,7 +342,7 @@ const addShield = (path) => {
        shield.push(shiledMesh);
         scene.add(shiledMesh);
 
-        var bodyDef = new b2BodyDef();
+        let bodyDef = new b2BodyDef();
 
         bodyDef.type = b2Body.b2_staticBody;
 
@@ -350,7 +350,7 @@ const addShield = (path) => {
 
         bodyDef.position.Set(path.x, path.y, 0.3);
         dBall = wWorld.CreateBody(bodyDef);
-        var fixDef = new b2FixtureDef();
+        let fixDef = new b2FixtureDef();
         fixDef.density = 1.0;
         fixDef.userData = "Shield";
         fixDef.friction = 0.0;
@@ -393,7 +393,7 @@ function createRenderWorld() {
     coineffect = new THREE.Mesh(g, m);
     
     // Add the camera.
-    var aspect = window.innerWidth / window.innerHeight;
+    let aspect = window.innerWidth / window.innerHeight;
     camera = new THREE.PerspectiveCamera(60, aspect, 1, 1000);
     camera.position.set(1, 1, 5);
     scene.add(camera);
@@ -430,12 +430,12 @@ function createRenderWorld() {
 function updatePhysicsWorld() {
 
     // Apply "friction". 
-    var lv = wBall.GetLinearVelocity();
+    let lv = wBall.GetLinearVelocity();
     lv.Multiply(0.97);
     wBall.SetLinearVelocity(lv);
 
     // Apply user-directed force.
-    var f = new b2Vec2(keyAxis[0] * wBall.GetMass() * 0.25, keyAxis[1] * wBall.GetMass() * 0.25);
+    let f = new b2Vec2(keyAxis[0] * wBall.GetMass() * 0.25, keyAxis[1] * wBall.GetMass() * 0.25);
     wBall.ApplyImpulse(f, wBall.GetPosition());
     keyAxis = [0, 0];
 
@@ -456,11 +456,11 @@ const shieldArray = [];
 //Collision Function
 const onContact = (contact) => {
 
-    var fixA = contact.GetFixtureA();
-    var fixB = contact.GetFixtureB();
+    let fixA = contact.GetFixtureA();
+    let fixB = contact.GetFixtureB();
 
     if (fixA.GetUserData() === "ball" && fixB.GetUserData() === "coin") {
-        var audio = new Audio('audio/coin_collection.wav');
+        let audio = new Audio('audio/coin_collection.wav');
         audio.play()
         scores = scores + 1;
         document.getElementById('score').innerHTML = "Score:" + scores;
@@ -476,7 +476,7 @@ const onContact = (contact) => {
 
         }, 200)
     } else if (fixA.GetUserData() === "wall" && fixB.GetUserData() === "ball") {
-        var hitSound = new Audio('audio/hitsound.wav');
+        let hitSound = new Audio('audio/hitsound.wav');
          hitSound.play()
          if(isPowerOn == false){
          hitCount ++;
@@ -488,9 +488,9 @@ const onContact = (contact) => {
           
         }, 30000);
         if(hitCount > 3){
-            var modal = document.getElementById("myModal");
+            let modal = document.getElementById("myModal");
             modal.style.display = "block";
-            var span = document.getElementsByClassName("endClose");
+            let span = document.getElementsByClassName("endClose");
             level = Math.floor((mazeDimension - 1) / 2 - 4);
             // setTimeout(() => {
             //     modal.style.display = "none";
@@ -523,9 +523,9 @@ const onContact = (contact) => {
     else if (fixA.GetUserData() === "ball" && fixB.GetUserData() === "obstacles") {
       animAudio(endGameSound);
       if(isPowerOn == false){
-        var modal = document.getElementById("myModal");
+        let modal = document.getElementById("myModal");
         modal.style.display = "block";
-        var span = document.getElementsByClassName("endClose");
+        let span = document.getElementsByClassName("endClose");
         // span.onclick = function() {
         //     modal.style.display = "none";
         //     gameState = 'fade out';
@@ -566,13 +566,13 @@ const onContact = (contact) => {
 function updateRenderWorld() {
 
     // Update ball position.
-    var stepX = wBall.GetPosition().x - ballMesh.position.x;
-    var stepY = wBall.GetPosition().y - ballMesh.position.y;
+    let stepX = wBall.GetPosition().x - ballMesh.position.x;
+    let stepY = wBall.GetPosition().y - ballMesh.position.y;
     ballMesh.position.x += stepX;
     ballMesh.position.y += stepY;
 
     // Update ball rotation.
-    var tempMat = new THREE.Matrix4();
+    let tempMat = new THREE.Matrix4();
     tempMat.makeRotationAxis(new THREE.Vector3(0, 1, 0), stepX / ballRadius);
     tempMat.multiplySelf(ballMesh.matrix);
     ballMesh.matrix = tempMat;
@@ -637,7 +637,7 @@ function gameLoop() {
             camera.position.set(1, 1, 5);
             light.position.set(1, 1, 1.3);
             light.intensity = 0;
-            var level = Math.floor((mazeDimension - 1) / 2 - 4);
+            let level = Math.floor((mazeDimension - 1) / 2 - 4);
             $('#level').html('Level ' + level);
             // if(level == 2){
             //     alert("hi");
@@ -660,8 +660,8 @@ function gameLoop() {
 
         case 'play':
              // Check for victory.
-             var mazeX = Math.floor(ballMesh.position.x + 0.5);
-             var mazeY = Math.floor(ballMesh.position.y + 0.5);
+             let mazeX = Math.floor(ballMesh.position.x + 0.5);
+             let mazeY = Math.floor(ballMesh.position.y + 0.5);
              IsLocked = false;
              isShield  = false;
              destroyerPath.forEach((item,index)=>{
@@ -688,7 +688,7 @@ function gameLoop() {
             updatePhysicsWorld();
             updateRenderWorld();
             renderer.render(scene, camera);
-            var listener = new Box2D.Dynamics.b2ContactListener;
+            let listener = new Box2D.Dynamics.b2ContactListener;
             listener.BeginContact = function (contact) {
                 onContact(contact);
             }
@@ -794,7 +794,7 @@ $(document).ready(function () {
     requestAnimationFrame(gameLoop);
 
 })
-var popupid = document.getElementById('popup');
+let popupid = document.getElementById('popup');
   
 function show(){
     document.getElementById('popup').style.display ='flex';
@@ -806,7 +806,7 @@ function show(){
     window.location="home.html"
   }
   document.getElementById('tooltiptext').style.display = "flex";
-var profileInfo =[];
+let profileInfo =[];
 (function(){
    
     firebase.auth().onAuthStateChanged(function(user) {
@@ -818,7 +818,7 @@ var profileInfo =[];
             // console.log("  Photo URL: " + profile.photoURL);
             document.getElementById("account").innerHTML =  profile.displayName[0];
             profileInfo = profile;
-            var tooltip = document.querySelector('#account');
+            let tooltip = document.querySelector('#account');
             
             event.stopPropagation();
             document.getElementById('tooltiptext').style.display = "flex";
@@ -826,27 +826,27 @@ var profileInfo =[];
                     if(event.target.id === "account"){
                         document.getElementById('tooltiptext').style.display = "flex";
                     }
-                    var tooltiptext = document.querySelector('.tooltiptext')
+                    let tooltiptext = document.querySelector('.tooltiptext')
                     document.getElementById('tooltiptext').style.display = "flex";
                 if (tooltiptext.classList.contains('active')) {
                     tooltiptext.classList.remove('active');
                     tooltiptext.innerHTML = " ";
                 } else {
                     tooltiptext.classList.add('active');
-                    var button = document.createElement('div');
+                    let button = document.createElement('div');
                     button.className = "button";
                     button.innerHTML =  profile.displayName[0];
                     tooltiptext.appendChild(button)
-                    var name = document.createElement('div');
+                    let name = document.createElement('div');
                     name.className ="name";
                     name.innerHTML = profile.displayName
                     tooltiptext.appendChild(name);
-                    var div = document.createElement('div');
+                    let div = document.createElement('div');
                     div.className ="email";
                     div.innerHTML = profile.email
                     tooltiptext.appendChild(div);
                   
-                    var signdiv = document.createElement('div');
+                    let signdiv = document.createElement('div');
                     signdiv.className ="sign-out";
                     signdiv.innerHTML = "Sign Out"
                     tooltiptext.appendChild(signdiv)
@@ -865,7 +865,7 @@ var profileInfo =[];
 })()
 
 function hideDiv() {
-    var target = event.target || event.srcElement;
+    let target = event.target || event.srcElement;
     // filter event handling when the event bubbles
     if (event.currentTarget == target.parentElement) {
         document.getElementById('tooltiptext').style.display = "none";
@@ -883,7 +883,7 @@ function logout(){
     window.location="login.html"
 }
 function GotoPage(){
-    // var x = document.getElementById("myAudio")
+    // let x = document.getElementById("myAudio")
     // x.play(); 
     setTimeout(() => {
     window.location="index.html";
