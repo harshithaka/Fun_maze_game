@@ -50,7 +50,7 @@ let camera = undefined,
    let levelCompleted = "audio/flag.wav"
 
 // Box2D shortcuts
-b2World = Box2D.Dynamics.b2World,
+ let b2World = Box2D.Dynamics.b2World,
     b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
     b2BodyDef = Box2D.Dynamics.b2BodyDef,
     b2Body = Box2D.Dynamics.b2Body,
@@ -109,7 +109,6 @@ function createPhysicsWorld() {
                 bodyDef.position.x = i;
                 bodyDef.position.y = j;
                 bodyDef.userData = `${i}${j}`
-                //bodycoin.position.Set(i+0.8, j);
                 cBall = wWorld.CreateBody(bodyDef);
                 fixDef.density = 1.0;
                 fixDef.friction = 0.0;
@@ -194,13 +193,13 @@ const obstacles = () => {
 
     maze[mazeDimension - 1][mazeDimension - 2] = false;
 
-    level = Math.floor((mazeDimension - 1) / 2 - 4);
+   let  level = Math.floor((mazeDimension - 1) / 2 - 4);
 
     const arrOfX = [];
 
     const cords = [];
 
-    maze.forEach((items, index) => {
+    maze.forEach((index) => {
         if (maze[index].indexOf(false) !== -1) {
             arrOfX.push(index);
         }
@@ -216,7 +215,7 @@ const obstacles = () => {
             }
         });
     });
-    obsPerLevel = level % 2 !== 0 ? level + 1 : level;
+   let obsPerLevel = level % 2 !== 0 ? level + 1 : level;
 
     let middleIndex = Math.ceil(Math.ceil(cords.length / obsPerLevel) / 2);
 
@@ -232,7 +231,7 @@ const obstacles = () => {
 
     let result = chunkArray(cords, middleIndex);
 
-    result.forEach((item, index) => {
+    result.forEach((item) => {
         destroyerPath.push({
             fPath: item[item.length - 1],
 
@@ -246,13 +245,13 @@ const shields = () => {
 
     maze[mazeDimension - 1][mazeDimension - 2] = false;
 
-    level = Math.floor((mazeDimension - 1) / 2 - 4);
+   let level = Math.floor((mazeDimension - 1) / 2 - 4);
 
     const arrOfy = [];
 
     const cords = [];
 
-    maze.forEach((items, index) => {
+    maze.forEach((index) => {
         if (maze[index].indexOf(false) !== -1) {
             arrOfy.push(index);
         }
@@ -268,7 +267,7 @@ const shields = () => {
             }
         });
     });
-    shiledPerLevel = level % 2 !== 0 ? level + 1 : level;
+   let shiledPerLevel = level % 2 !== 0 ? level + 1 : level;
 
     let middleIndex = Math.ceil(Math.ceil(cords.length / shiledPerLevel) / 2);
 
@@ -284,7 +283,7 @@ const shields = () => {
 
     let result = chunkArray(cords, middleIndex);
 
-    result.forEach((item, index) => {
+    result.forEach((item) => {
         shieldPath.push({
             fPath: item[item.length - 1],
 
@@ -294,8 +293,7 @@ const shields = () => {
 };
 //Adding Destroyer
 const addDestroyer = (path) => {
-    if (isLocked == false) {
-        //alert("destroyer");
+    if (isLocked) {
         const g = new THREE.SphereGeometry(0.3, 0.3, 0.1, 120);
 
        let m = new THREE.MeshPhongMaterial({
@@ -323,14 +321,12 @@ const addDestroyer = (path) => {
         fixDef.restitution = 0.25;
         fixDef.shape = new b2CircleShape(ballRadius);
         dBall.CreateFixture(fixDef);
-       // isLocked = false;
     }
     
 };
 //Adding shield
 const addShield = (path) => {
-    if (isShield == false) {
-        //alert("destroyer");
+    if (isShield) {
         const g = new THREE.SphereGeometry(0.3, 0.3, 0.1, 120);
 
        let m = new THREE.MeshPhongMaterial({
@@ -359,7 +355,6 @@ const addShield = (path) => {
         fixDef.restitution = 0.25;
         fixDef.shape = new b2CircleShape(ballRadius);
         dBall.CreateFixture(fixDef);
-       // isLocked = false;
     }
     
 };
@@ -413,7 +408,7 @@ function createRenderWorld() {
     m = new THREE.MeshPhongMaterial({
         map: flagTexture
     });
-    flagimag = new THREE.Mesh(g, m);
+   let flagimag = new THREE.Mesh(g, m);
     flagimag.position.set(mazeDimension - 1 , mazeDimension - 2 , 1);
     // Add the ground.
     g = new THREE.PlaneGeometry(mazeDimension * 10, mazeDimension * 10, mazeDimension, mazeDimension);
