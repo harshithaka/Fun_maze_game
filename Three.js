@@ -15513,9 +15513,8 @@ THREE.TubeGeometry = function (a, b, c, d, e, f) {
 THREE.TubeGeometry.prototype = new THREE.Geometry();
 THREE.TubeGeometry.prototype.constructor = THREE.TubeGeometry;
 THREE.TubeGeometry.FrenetFrames = function (a, b, c) {
-  new THREE.Vector3();
+ 
   var d = new THREE.Vector3();
-  new THREE.Vector3();
   var e = [],
     f = [],
     g = [],
