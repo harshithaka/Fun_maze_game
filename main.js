@@ -1,4 +1,3 @@
-// var mainApp ={};
 
 document.getElementById('tooltiptext').style.display = "flex";
 
@@ -22,8 +21,7 @@ function logout(){
     window.location="login.html"
 }
 function GotoPage(){
-    // var x = document.getElementById("myAudio")
-    // x.play(); 
+   
     setTimeout(() => {
     window.location="index.html";
     }, 700);
