@@ -2,7 +2,7 @@
 document.getElementById('tooltiptext').style.display = "flex";
 
 
-function hideDiv() {
+function hideDiv(event) {
     let target = event.target || event.srcElement;
     // filter event handling when the event bubbles
     if (event.currentTarget == target) {
