@@ -173,7 +173,7 @@ for (let i = 0; i < field.dimension; i++) {
             cube.rotation.y = 0;
             cube.rotation.z = 0;
             setInterval(() => {
-                cube.rotation.x = rotate += 0.01;
+                cube.rotation.x = rotate += 0.4;
             }, increment);
             cube.userData = `${i}${j}`;
             coins.push(cube);
@@ -190,7 +190,7 @@ return coinmaterial;
 }
 //Creating path for Destroyer onLoad
 const obstacles = () => {
-const maze = generateSquareMaze(mazeDimension);
+maze = generateSquareMaze(mazeDimension);
 
 maze[mazeDimension - 1][mazeDimension - 2] = false;
 
@@ -242,7 +242,7 @@ result.forEach((item) => {
 };
 //Creating path for Shield onLoad
 const shields = () => {
-const maze = generateSquareMaze(mazeDimension);
+maze = generateSquareMaze(mazeDimension);
 
 maze[mazeDimension - 1][mazeDimension - 2] = false;
 
@@ -294,7 +294,7 @@ result.forEach((item) => {
 };
 //Adding Destroyer
 const addDestroyer = (path) => {
-if (isLocked) {
+if (isLocked == false) {
      g = new THREE.SphereGeometry(0.3, 0.3, 0.1, 120);
 
      m = new THREE.MeshPhongMaterial({
@@ -429,7 +429,7 @@ function updatePhysicsWorld() {
 
 // Apply "friction". 
 let lv = wBall.GetLinearVelocity();
-lv.Multiply(0.97);
+lv.Multiply(0.96);
 wBall.SetLinearVelocity(lv);
 
 // Apply user-directed force.
@@ -476,7 +476,7 @@ if (fixA.GetUserData() === "ball" && fixB.GetUserData() === "coin") {
 } else if (fixA.GetUserData() === "wall" && fixB.GetUserData() === "ball") {
     let hitSound = new Audio('audio/hitsound.wav');
      hitSound.play()
-     if(isPowerOn){
+     if(isPowerOn == false){
      hitCount ++;
     ballMesh.material.map = THREE.ImageUtils.loadTexture("crash.png");
 
@@ -488,6 +488,7 @@ if (fixA.GetUserData() === "ball" && fixB.GetUserData() === "coin") {
     if(hitCount > 3){
         let modal = document.getElementById("myModal");
         modal.style.display = "block";
+        mazeDimension = 11;
       
           
     }
@@ -504,9 +505,10 @@ if (fixA.GetUserData() === "ball" && fixB.GetUserData() === "coin") {
 }
 else if (fixA.GetUserData() === "ball" && fixB.GetUserData() === "obstacles") {
   animAudio(endGameSound);
-  if(isPowerOn){
+  if(isPowerOn == false){
     let modal = document.getElementById("myModal");
     modal.style.display = "block";
+    mazeDimension = 11;
 
        }
   
@@ -659,9 +661,8 @@ switch (gameState) {
         removeCoins(coinArray);
         removeShield(shieldArray);
        
-        //console.log((ballMesh.position.x +0.3).toFixed(1) );
         if (mazeX == mazeDimension && mazeY == mazeDimension - 2) {
-           // mazeDimension += 2;
+            mazeDimension += 2;
             animAudio(levelCompleted);
             gameState = 'fade out';
         }
@@ -827,7 +828,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 })()
 
-function hideDiv() {
+function hideDiv(event) {
 let target = event.target || event.srcElement;
 // filter event handling when the event bubbles
 if (event.currentTarget == target.parentElement) {
