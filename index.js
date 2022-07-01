@@ -63,8 +63,8 @@ b2Vec2 = Box2D.Common.Math.b2Vec2,
 // Box2D world variables 
 wWorld = undefined,
 wBall = undefined;
-cBall = undefined;
-dball = undefined;
+let cBall = undefined;
+let dball = undefined;
 
 let coins = [];
 let shield =[];
@@ -220,7 +220,7 @@ let obsPerLevel = level % 2 !== 0 ? level + 1 : level;
 
 let middleIndex = Math.ceil(Math.ceil(cords.length / obsPerLevel) / 2);
 
-const chunkArray = (myArray, chunk_size) => {
+const chunkArray = ((myArray, chunk_size) => {
     let results = [];
 
     while (myArray.length) {
@@ -228,7 +228,7 @@ const chunkArray = (myArray, chunk_size) => {
     }
 
     return results;
-};
+});
 
 let result = chunkArray(cords, middleIndex);
 
@@ -272,7 +272,7 @@ let shiledPerLevel = level % 2 !== 0 ? level + 1 : level;
 
 let middleIndex = Math.ceil(Math.ceil(cords.length / shiledPerLevel) / 2);
 
-const chunkArray = (myArray, chunk_size) => {
+const chunkArray = ((myArray, chunk_size) => {
     let results = [];
 
     while (myArray.length) {
@@ -280,7 +280,7 @@ const chunkArray = (myArray, chunk_size) => {
     }
 
     return results;
-};
+});
 
 let result = chunkArray(cords, middleIndex);
 
@@ -295,13 +295,13 @@ result.forEach((item) => {
 //Adding Destroyer
 const addDestroyer = (path) => {
 if (isLocked) {
-    const g = new THREE.SphereGeometry(0.3, 0.3, 0.1, 120);
+     g = new THREE.SphereGeometry(0.3, 0.3, 0.1, 120);
 
-   let m = new THREE.MeshPhongMaterial({
+     m = new THREE.MeshPhongMaterial({
         map: destroyerTexture
     });
 
-   let destroyerMesh = new THREE.Mesh(g, m);
+    destroyerMesh = new THREE.Mesh(g, m);
 
     destroyerMesh.position.set(path.x + 0.5, path.y + 0.5, 0.3);
 
@@ -452,7 +452,7 @@ else{
 const coinArray = [];
 const shieldArray = [];
 //Collision Function
-const onContact = (contact) => {
+const onContact = ((contact) => {
 
 let fixA = contact.GetFixtureA();
 let fixB = contact.GetFixtureB();
@@ -488,7 +488,6 @@ if (fixA.GetUserData() === "ball" && fixB.GetUserData() === "coin") {
     if(hitCount > 3){
         let modal = document.getElementById("myModal");
         modal.style.display = "block";
-        level = Math.floor((mazeDimension - 1) / 2 - 4);
       
           
     }
@@ -517,19 +516,15 @@ else if (fixA.GetUserData() === "ball" && fixB.GetUserData() === "Shield") {
     animAudio(endGameSound);
     shieldArray.push(fixB);
     isPowerOn = true;
-    // ballMesh.material.map = THREE.ImageUtils.loadTexture("blue.jfif");
-    // ballMesh.material.needsUpdate = true;
     setTimeout(() => {
         isPowerOn = false;
-        // ballMesh.material.map = THREE.ImageUtils.loadTexture('ball.png');
-        // ballMesh.material.needsUpdate = true;
     }, 30000);
        }
        else if (fixA.GetUserData() === "Shield" && fixB.GetUserData() === "coin") {
         gameState = 'play';
            }
 
-}
+});
 
 function updateRenderWorld() {
 
