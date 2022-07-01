@@ -38,6 +38,7 @@ obsatacle,
 levelscore,
 scores = 0;
 let isLocked = false;
+let IsLocked = false;
 let isShield = false;
 let isPowerOn = false;
 let hitCount = 0;
