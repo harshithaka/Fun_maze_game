@@ -1,4 +1,4 @@
-var app_firebase ={};
+
 (function(){
     // Import the functions you need from the SDKs you need
     // import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-app.js";
@@ -23,7 +23,5 @@ var app_firebase ={};
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
    
-    //app_firebase = firebase;
-   //const analytics = getAnalytics(app);
 
 })()
